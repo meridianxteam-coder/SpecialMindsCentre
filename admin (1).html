@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Staff Admin | Special Minds Assessment & Therapy Centre</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ccircle cx=%2750%27 cy=%2750%27 r=%2745%27 fill=%27%232C5282%27/%3E%3Ccircle cx=%2740%27 cy=%2740%27 r=%2718%27 fill=%27%234FB0A5%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="admin-shell">
+
+<div class="admin-lock" id="lockScreen">
+  <div class="logo-mark" style="margin:0 auto 18px;"></div>
+  <h3>Staff Login</h3>
+  <p style="color:var(--ink-soft); font-size:.9rem;">Enter the staff passcode to view and manage inquiries.</p>
+  <input type="password" id="passInput" placeholder="Passcode">
+  <button id="unlockBtn" class="btn btn-primary" style="width:100%;">Unlock</button>
+  <p id="lockError" style="color:var(--danger); font-size:.85rem; margin-top:10px;"></p>
+  <p style="font-size:.78rem; color:var(--ink-soft); margin-top:18px;">
+    <a href="index.html" style="color:var(--primary); text-decoration:none;">← Back to website</a>
+  </p>
+</div>
+
+<div id="dashboard" style="display:none;">
+  <div class="admin-header">
+    <div class="container">
+      <div>
+        <h1>Inquiry Dashboard</h1>
+        <div class="sub">Special Minds Assessment & Therapy Centre: Staff Only</div>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <a href="index.html" class="btn btn-sm btn-ghost">← Website</a>
+        <button id="lockOutBtn" class="btn btn-sm" style="background:rgba(255,255,255,0.12); color:#fff;">Log Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="container">
+
+      <p style="background:var(--bg-tint); border-radius:12px; padding:14px 18px; font-size:.85rem; color:var(--ink-soft); margin-bottom:26px;">
+        📌 This panel stores inquiries in <strong>this browser only</strong>. Bookings made by visitors from the website form on their own phone/computer will arrive by email and WhatsApp as usual, log those here manually with the form below so everything stays in one place. If you'd like inquiries to sync automatically across devices later, that needs a small backend (e.g. a shared form service), just ask and we can set that up.
+      </p>
+
+      <div class="admin-stats reveal">
+        <div class="stat-box"><div class="num" id="statTotal">0</div><div class="lbl">Total Inquiries</div></div>
+        <div class="stat-box"><div class="num" id="statPending">0</div><div class="lbl">Pending</div></div>
+        <div class="stat-box"><div class="num" id="statDone">0</div><div class="lbl">Dealt With</div></div>
+      </div>
+
+      <div class="admin-form-card reveal">
+        <h3 style="font-size:1.05rem; margin-bottom:16px;">Log a New Inquiry</h3>
+        <form id="addInquiryForm">
+          <div class="form-row">
+            <div><label for="addName">Name</label><input type="text" id="addName" required></div>
+            <div><label for="addPhone">Phone</label><input type="tel" id="addPhone" required></div>
+          </div>
+          <div class="form-row">
+            <div><label for="addEmail">Email</label><input type="email" id="addEmail"></div>
+            <div><label for="addType">Session Type</label>
+              <select id="addType">
+                <option>Online Session</option>
+                <option>Face-to-Face Session</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div>
+              <label for="addSource">Received Via</label>
+              <select id="addSource">
+                <option>WhatsApp</option>
+                <option>Phone Call</option>
+                <option>Email</option>
+                <option>Website Form</option>
+                <option>Walk-in</option>
+              </select>
+            </div>
+            <div></div>
+          </div>
+          <div><label for="addNotes">Notes</label><textarea id="addNotes" placeholder="Brief description of the inquiry..."></textarea></div>
+          <div class="form-foot">
+            <span></span>
+            <button type="submit" class="btn btn-primary">Add to List</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="admin-toolbar reveal">
+        <div class="admin-tabs">
+          <button class="admin-tab active" data-filter="all">All</button>
+          <button class="admin-tab" data-filter="pending">Pending</button>
+          <button class="admin-tab" data-filter="done">Dealt With</button>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <input type="text" id="searchBox" class="admin-search" placeholder="Search name, phone, email...">
+          <button id="exportBtn" class="btn btn-sm btn-ghost">Export CSV</button>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table class="inquiry-table reveal">
+          <thead>
+            <tr>
+              <th>Name / Source</th>
+              <th>Contact</th>
+              <th>Session Type</th>
+              <th>Notes</th>
+              <th>Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="inquiryTbody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState">No inquiries yet. They'll appear here once logged.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
